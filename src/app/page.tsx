@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Leaf, ShieldCheck, Snowflake } from 'lucide-react'
 import { getAllProducts } from '@/lib/sanity/queries'
 import { productImageUrl, lqipUrl } from '@/lib/sanity/image'
 import FreshnessChecker from '@/components/shared/FreshnessChecker'
@@ -287,23 +288,23 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8 text-left">
             {[
               {
-                icon: '🌿',
+                icon: <Leaf size={28} strokeWidth={1.5} className="text-leaf-green" />,
                 title: '100% Natural',
                 body: 'Henna powder, water, essential oil, sugar. Nothing else. Zero preservatives.',
               },
               {
-                icon: '🚫',
+                icon: <ShieldCheck size={28} strokeWidth={1.5} className="text-henna-maroon" />,
                 title: 'PPD Free',
                 body: 'No para-phenylenediamine (PPD) or black henna chemicals that cause allergic reactions.',
               },
               {
-                icon: '❄️',
+                icon: <Snowflake size={28} strokeWidth={1.5} className="text-leaf-green" />,
                 title: 'Made Fresh',
                 body: 'Made fresh and frozen for preservation. Store in freezer immediately upon arrival.',
               },
             ].map((item) => (
               <div key={item.title} className="bg-ivory-bg/60 rounded-xl p-5 shadow-card">
-                <span className="text-3xl mb-3 block">{item.icon}</span>
+                <span className="mb-3 block">{item.icon}</span>
                 <h3 className="font-serif font-semibold text-henna-maroon mb-2">{item.title}</h3>
                 <p className="text-sm text-dark-earth/70 leading-relaxed">{item.body}</p>
               </div>

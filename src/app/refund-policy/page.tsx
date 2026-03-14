@@ -29,7 +29,7 @@ export default function RefundPolicyPage() {
         <p>
           <strong>What to do:</strong> Record a short unboxing video while opening the package (do
           not open it before recording). Send the video to Chippy on WhatsApp at{' '}
-          <a href="https://wa.me/917561856754">+91 7561856754</a> within{' '}
+          <a href="https://wa.me/917561856754" target="_blank" rel="noopener noreferrer">+91 7561856754</a> within{' '}
           <strong>24 hours of delivery</strong>. Chippy will arrange the refund or replacement
           immediately.
         </p>
@@ -76,7 +76,7 @@ export default function RefundPolicyPage() {
         <p>Two options:</p>
         <ol>
           <li>
-            <strong>WhatsApp:</strong> <a href="https://wa.me/917561856754">+91 7561856754</a>
+            <strong>WhatsApp:</strong> <a href="https://wa.me/917561856754" target="_blank" rel="noopener noreferrer">+91 7561856754</a>
           </li>
           <li>
             <strong>Online form:</strong> <Link href="/support/refund">Submit a refund request</Link>

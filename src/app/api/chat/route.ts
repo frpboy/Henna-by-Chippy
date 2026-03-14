@@ -99,8 +99,9 @@ export async function POST(req: NextRequest) {
       content: m.text,
     }))
 
+  const model = process.env.NEXT_PUBLIC_GEMINI_MODEL ?? 'gemini-2.5-flash'
   const { text: responseText } = await generateText({
-    model: google('gemini-2.0-flash'),
+    model: google(model),
     system: SYSTEM_PROMPT,
     messages: [...historyMessages, { role: 'user', content: message }],
     maxTokens: 600,

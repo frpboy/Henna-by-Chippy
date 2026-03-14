@@ -82,7 +82,7 @@ export default function RefundFormPage() {
         </h1>
         <p className="text-warm-gray text-sm mb-8">
           You can also message Chippy directly on{' '}
-          <a href="https://wa.me/917561856754" className="underline text-leaf-green">
+          <a href="https://wa.me/917561856754" target="_blank" rel="noopener noreferrer" className="underline text-leaf-green">
             WhatsApp
           </a>
           .

@@ -74,7 +74,7 @@ export default function PrivacyPage() {
         <p>
           Under India&apos;s DPDP Act 2023, you have the right to access, correct, or erase your
           personal data. To make a request, message Chippy on WhatsApp at{' '}
-          <a href="https://wa.me/917561856754">+91 7561856754</a>. Requests will be handled within
+          <a href="https://wa.me/917561856754" target="_blank" rel="noopener noreferrer">+91 7561856754</a>. Requests will be handled within
           30 days.
         </p>
 
@@ -85,7 +85,7 @@ export default function PrivacyPage() {
           <strong>Name:</strong> Chippy
           <br />
           <strong>Contact:</strong>{' '}
-          <a href="https://wa.me/917561856754">WhatsApp: +91 7561856754</a>
+          <a href="https://wa.me/917561856754" target="_blank" rel="noopener noreferrer">WhatsApp: +91 7561856754</a>
           <br />
           <strong>Address:</strong> Karuvarakundu, Malappuram, Kerala, India
         </p>
@@ -99,7 +99,7 @@ export default function PrivacyPage() {
         <h2>Contact</h2>
         <p>
           For any privacy questions, contact Chippy on WhatsApp:{' '}
-          <a href="https://wa.me/917561856754">+91 7561856754</a>
+          <a href="https://wa.me/917561856754" target="_blank" rel="noopener noreferrer">+91 7561856754</a>
         </p>
       </div>
     </div>

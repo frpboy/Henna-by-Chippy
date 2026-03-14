@@ -57,7 +57,7 @@ export default function TermsPage() {
 
         <h2>Contact</h2>
         <p>
-          For questions: <a href="https://wa.me/917561856754">WhatsApp +91 7561856754</a>
+          For questions: <a href="https://wa.me/917561856754" target="_blank" rel="noopener noreferrer">WhatsApp +91 7561856754</a>
         </p>
       </div>
     </div>
