@@ -1,0 +1,26 @@
+{
+  "_comment": "Pincode zone lookup for freshness checker. Keys are 6-digit pincodes or 3-digit prefixes.",
+
+  "673": { "district": "Malappuram / Kozhikode", "state": "Kerala", "zone": "safe", "estimatedDays": "1-2 days" },
+  "676": { "district": "Malappuram", "state": "Kerala", "zone": "safe", "estimatedDays": "1-2 days" },
+  "679": { "district": "Palakkad / Malappuram", "state": "Kerala", "zone": "safe", "estimatedDays": "1-2 days" },
+  "678": { "district": "Palakkad", "state": "Kerala", "zone": "safe", "estimatedDays": "1-2 days" },
+  "680": { "district": "Thrissur", "state": "Kerala", "zone": "safe", "estimatedDays": "1-2 days" },
+  "681": { "district": "Thrissur", "state": "Kerala", "zone": "safe", "estimatedDays": "1-2 days" },
+  "682": { "district": "Ernakulam", "state": "Kerala", "zone": "caution", "estimatedDays": "2-3 days" },
+  "683": { "district": "Ernakulam", "state": "Kerala", "zone": "caution", "estimatedDays": "2-3 days" },
+  "686": { "district": "Kottayam", "state": "Kerala", "zone": "caution", "estimatedDays": "2-3 days" },
+  "688": { "district": "Alappuzha", "state": "Kerala", "zone": "caution", "estimatedDays": "2-3 days" },
+  "685": { "district": "Idukki", "state": "Kerala", "zone": "caution", "estimatedDays": "2-3 days" },
+  "670": { "district": "Kannur", "state": "Kerala", "zone": "caution", "estimatedDays": "2-3 days" },
+  "695": { "district": "Trivandrum", "state": "Kerala", "zone": "caution", "estimatedDays": "2-3 days" },
+  "691": { "district": "Kollam", "state": "Kerala", "zone": "caution", "estimatedDays": "2-3 days" },
+  "629": { "district": "Kanyakumari", "state": "Tamil Nadu", "zone": "risky", "estimatedDays": "2-4 days" },
+  "600": { "district": "Chennai", "state": "Tamil Nadu", "zone": "risky", "estimatedDays": "3-4 days" },
+  "560": { "district": "Bangalore", "state": "Karnataka", "zone": "risky", "estimatedDays": "3-4 days" },
+  "403": { "district": "Goa", "state": "Goa", "zone": "risky", "estimatedDays": "3-4 days" },
+  "110": { "district": "New Delhi", "state": "Delhi", "zone": "warn", "estimatedDays": "4-6 days" },
+  "400": { "district": "Mumbai", "state": "Maharashtra", "zone": "warn", "estimatedDays": "4-5 days" },
+  "500": { "district": "Hyderabad", "state": "Telangana", "zone": "warn", "estimatedDays": "4-5 days" },
+  "700": { "district": "Kolkata", "state": "West Bengal", "zone": "warn", "estimatedDays": "5-7 days" }
+}

@@ -282,3 +282,251 @@ a:hover {
   width: 100%;
   height: auto;
 }
+
+/* ================================================================
+   FloatingNav — Custom CSS pill nav
+   ================================================================ */
+
+.floating-nav {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background: rgba(255, 253, 245, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(93, 41, 6, 0.12);
+  border-radius: 9999px;
+  padding: 0.5rem 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 4px 24px rgba(93, 41, 6, 0.08);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+}
+
+.floating-nav.nav-hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-120%);
+  pointer-events: none;
+}
+
+/* ================================================================
+   HeroGlow — CSS radial-gradient maroon glow
+   ================================================================ */
+
+.hero-glow {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 90% 65% at 50% -5%,
+    rgba(93, 41, 6, 0.2) 0%,
+    rgba(255, 253, 245, 0) 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-glow > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================================================
+   OrganicBackground — CSS animated gradient blobs
+   ================================================================ */
+
+.organic-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.organic-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.18;
+  animation: blob-float 14s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.organic-blob-1 {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, var(--color-terracotta), transparent 70%);
+  top: -120px;
+  right: -80px;
+}
+
+.organic-blob-2 {
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, var(--color-leaf-green), transparent 70%);
+  bottom: -80px;
+  left: -60px;
+  animation-delay: -7s;
+}
+
+@keyframes blob-float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(24px, 16px) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .organic-blob {
+    animation: none;
+  }
+}
+
+/* ================================================================
+   HoverRevealCard — CSS hover overlay, zero JS
+   ================================================================ */
+
+.hover-reveal-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.hover-reveal-card .card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(93, 41, 6, 0.84);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.26s ease, transform 0.26s ease;
+}
+
+.hover-reveal-card:hover .card-overlay,
+.hover-reveal-card:focus-within .card-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================================================================
+   Cart Drawer
+   ================================================================ */
+
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 60;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.cart-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(420px, 100vw);
+  background: var(--color-ivory-bg);
+  z-index: 61;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 40px rgba(93, 41, 6, 0.1);
+}
+
+.cart-drawer.open {
+  transform: translateX(0);
+}
+
+/* ================================================================
+   AI Chat Widget
+   ================================================================ */
+
+.chat-widget {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 55;
+}
+
+.chat-toggle-btn {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: var(--color-leaf-green);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(45, 75, 34, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-toggle-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 32px rgba(45, 75, 34, 0.5);
+}
+
+.chat-panel {
+  position: absolute;
+  bottom: 4.5rem;
+  right: 0;
+  width: min(380px, calc(100vw - 2rem));
+  height: 520px;
+  background: var(--color-ivory-bg);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 48px rgba(93, 41, 6, 0.18);
+  border: 1px solid rgba(93, 41, 6, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ================================================================
+   Freshness Zone Badge
+   ================================================================ */
+
+.zone-safe {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+}
+
+.zone-caution {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+}
+
+.zone-risky {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+}

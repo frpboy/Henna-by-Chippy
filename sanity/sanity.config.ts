@@ -8,6 +8,8 @@ import { stainShowcase } from './schemas/stainShowcase'
 import { review } from './schemas/review'
 import { post } from './schemas/post'
 import { siteSettings } from './schemas/siteSettings'
+import refundRequest from './schemas/refundRequest'
+import { chatLog } from './schemas/chatLog'
 
 export default defineConfig({
   name: 'henna-by-chippy',
@@ -37,6 +39,12 @@ export default defineConfig({
             S.listItem()
               .title('📖 Chippy\'s Stories')
               .child(S.documentTypeList('post').title('Blog Posts')),
+            S.listItem()
+              .title('🔄 Refund Requests')
+              .child(S.documentTypeList('refundRequest').title('Refund & Replacement Requests')),
+            S.listItem()
+              .title('💬 AI Chat Logs')
+              .child(S.documentTypeList('chatLog').title('Chat Sessions')),
             S.divider(),
             S.listItem()
               .title('⚙️ Site Settings')
@@ -52,6 +60,6 @@ export default defineConfig({
   ],
 
   schema: {
-    types: [product, bridalGallery, stainShowcase, review, post, siteSettings],
+    types: [product, bridalGallery, stainShowcase, review, post, siteSettings, refundRequest, chatLog],
   },
 })
