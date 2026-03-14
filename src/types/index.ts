@@ -12,7 +12,7 @@ export interface Product {
   description: string
   image: SanityImage
   inStock: boolean
-  slug: { current: string }
+  slug: string
 }
 
 export interface SanityImage {
@@ -121,4 +121,37 @@ export interface RefundRequest {
   productOrdered: 'nail' | 'skin' | 'both'
   issueType: 'damaged_arrival' | 'wrong_item' | 'missing_item' | 'other'
   issueDescription?: string
+}
+
+// ── Blog Post ──────────────────────────────────────────────────────
+export interface Post {
+  _id: string
+  _type: 'post'
+  title: string
+  slug: string
+  excerpt: string
+  featuredImage?: SanityImage
+  body?: unknown[]
+  category?: string
+  tags?: string[]
+  publishedAt: string
+  featured: boolean
+  seoTitle?: string
+  seoDescription?: string
+}
+
+// ── Pinecone chunk ──────────────────────────────────────────────────
+export interface KnowledgeChunk {
+  id: string
+  text: string
+  score: number
+  metadata: {
+    category: string
+    imageUrl?: string
+    stainType?: string
+    rating?: number
+    hoursKept?: number
+    coneUsed?: string
+    source?: string
+  }
 }

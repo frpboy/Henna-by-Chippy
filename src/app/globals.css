@@ -292,7 +292,7 @@ a:hover {
   top: 1rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 50;
+  z-index: 60;
   background: rgba(255, 253, 245, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -350,6 +350,7 @@ a:hover {
 .organic-bg {
   position: relative;
   overflow: hidden;
+  background-color: color-mix(in srgb, var(--color-ivory-bg) 92%, var(--color-terracotta) 8%);
 }
 
 .organic-blob {

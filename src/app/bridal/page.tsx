@@ -120,10 +120,11 @@ export default async function BridalPage() {
       </section>
 
       {/* Booking info */}
-      <section id="booking-info" className="organic-bg section-container" aria-label="Booking information">
+      <section id="booking-info" className="organic-bg" aria-label="Booking information">
         <div className="organic-blob organic-blob-1" aria-hidden="true" />
         <div className="organic-blob organic-blob-2" aria-hidden="true" />
-        <div className="relative z-10 max-w-xl mx-auto text-center">
+        <div className="section-container relative z-10">
+        <div className="max-w-xl mx-auto text-center">
           <h2 className="font-serif text-henna-maroon text-2xl mb-4">Book a Session</h2>
           <p className="text-dark-earth/70 text-sm mb-6 leading-relaxed">
             Reach out on WhatsApp to check availability, pricing, and design options for your
@@ -140,6 +141,7 @@ export default async function BridalPage() {
           <p className="text-xs text-warm-gray mt-4">
             Based in Karuvarakundu, Malappuram District, Kerala.
           </p>
+        </div>
         </div>
       </section>
     </div>

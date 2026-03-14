@@ -98,7 +98,7 @@ export default async function HomePage() {
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <section className="hero-glow" aria-label="Hero">
-        <div className="relative min-h-screen flex items-center">
+        <div className="relative min-h-screen flex items-center w-full">
           {/* Background image */}
           <div className="absolute inset-0 z-0">
             <Image
@@ -272,10 +272,11 @@ export default async function HomePage() {
       </section>
 
       {/* ── Why Chippy ──────────────────────────────────────────── */}
-      <section className="organic-bg section-container" aria-labelledby="why-heading">
+      <section className="organic-bg" aria-labelledby="why-heading">
         <div className="organic-blob organic-blob-1" aria-hidden="true" />
         <div className="organic-blob organic-blob-2" aria-hidden="true" />
-        <div className="relative z-10 text-center max-w-2xl mx-auto">
+        <div className="section-container relative z-10">
+        <div className="text-center max-w-2xl mx-auto">
           <h2
             id="why-heading"
             className="font-serif text-henna-maroon mb-4"
@@ -308,6 +309,7 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+        </div>
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 import { sanityClient } from './client'
-import type { Product, BridalGallery, Review, SiteSettings } from '@/types'
+import type { Product, BridalGallery, Review, SiteSettings, Post } from '@/types'
 
 const isSanityConfigured = !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 
@@ -93,5 +93,85 @@ export async function getApprovedReviews(start = 0, end = 12): Promise<Review[]>
       stainPhotos { asset, alt }
     }`,
     { start, end },
+  )
+}
+
+// ── Blog Posts ────────────────────────────────────────────────────
+
+export async function getAllPosts(): Promise<Post[]> {
+  if (!isSanityConfigured) return []
+  return sanityClient.fetch(
+    `*[_type == "post"] | order(publishedAt desc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      excerpt,
+      featuredImage { asset, alt },
+      category,
+      tags,
+      publishedAt,
+      featured,
+      seoTitle,
+      seoDescription
+    }`,
+  )
+}
+
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  if (!isSanityConfigured) return null
+  return sanityClient.fetch(
+    `*[_type == "post" && slug.current == $slug][0] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      excerpt,
+      featuredImage { asset, alt },
+      body,
+      category,
+      tags,
+      publishedAt,
+      featured,
+      seoTitle,
+      seoDescription
+    }`,
+    { slug },
+  )
+}
+
+export async function getFeaturedPosts(limit = 3): Promise<Post[]> {
+  if (!isSanityConfigured) return []
+  return sanityClient.fetch(
+    `*[_type == "post" && featured == true] | order(publishedAt desc) [0...$limit] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      excerpt,
+      featuredImage { asset, alt },
+      category,
+      publishedAt,
+      featured
+    }`,
+    { limit },
+  )
+}
+
+export async function getFeaturedReviews(limit = 6): Promise<Review[]> {
+  if (!isSanityConfigured) return []
+  return sanityClient.fetch(
+    `*[_type == "review" && approved == true && featured == true] | order(submittedAt desc) [0...$limit] {
+      _id,
+      customerName,
+      location,
+      rating,
+      reviewText,
+      coneUsed,
+      hoursKept,
+      submittedAt,
+      stainPhotos { asset, alt }
+    }`,
+    { limit },
   )
 }
