@@ -1,0 +1,202 @@
+[
+  {
+    "id": "storage_1",
+    "text": "Organic henna cones from Henna by Chippy must be stored in the freezer immediately upon arrival. There are no preservatives in these cones, so the active dye compound begins to degrade at room temperature.",
+    "metadata": { "category": "storage", "priority": "critical" }
+  },
+  {
+    "id": "storage_2",
+    "text": "If a henna cone is left outside the freezer for more than 3 days, the lawsone (the natural dye in henna) degrades significantly. This results in a poor, orange, or very light stain instead of a rich deep maroon.",
+    "metadata": { "category": "storage", "priority": "critical" }
+  },
+  {
+    "id": "storage_3",
+    "text": "Henna cones from Henna by Chippy last 3 to 4 months when stored properly in the freezer. The freezer pauses the natural oxidation process and keeps the cone fully potent.",
+    "metadata": { "category": "storage", "priority": "high" }
+  },
+  {
+    "id": "storage_4",
+    "text": "After thawing a henna cone from the freezer, use it within 24 to 48 hours. Do not refreeze a thawed cone as repeated freezing and thawing can degrade the henna quality.",
+    "metadata": { "category": "storage", "priority": "high" }
+  },
+  {
+    "id": "storage_5",
+    "text": "Signs that a henna cone has spoiled: the paste smells sour or unusual, the stain comes out orange or very light, the paste is watery or has separated. These indicate the cone was not stored properly.",
+    "metadata": { "category": "storage", "priority": "medium" }
+  },
+  {
+    "id": "application_1",
+    "text": "For the deepest maroon henna stain, keep the henna paste on the skin for 8 to 12 hours. Overnight application (applying before bed and removing in the morning) is ideal for maximum color.",
+    "metadata": { "category": "application", "priority": "critical" }
+  },
+  {
+    "id": "application_2",
+    "text": "To remove henna paste, scrape it off gently. Do not wash it off with water. Water stops the oxidation process that deepens the stain. After scraping, avoid water on the stained area for at least 24 hours.",
+    "metadata": { "category": "application", "priority": "high" }
+  },
+  {
+    "id": "application_3",
+    "text": "The henna stain continues to darken for 24 to 48 hours after the paste is removed. The full deep maroon color develops through natural oxidation, so don't judge the stain immediately after removal.",
+    "metadata": { "category": "application", "priority": "high" }
+  },
+  {
+    "id": "application_4",
+    "text": "Apply henna on clean, dry skin. Avoid applying moisturizer right before henna application as it can create a barrier. Wipe the area with a dry cloth before applying.",
+    "metadata": { "category": "application", "priority": "medium" }
+  },
+  {
+    "id": "application_5",
+    "text": "Heat helps deepen henna stain. While the paste is on, sitting near warmth or using a hair dryer on low setting increases the stain intensity. Some people lightly wrap the design after applying to retain body heat.",
+    "metadata": { "category": "application", "priority": "medium" }
+  },
+  {
+    "id": "application_6",
+    "text": "A mixture of lemon juice and sugar dabbed onto the dried henna paste (before it fully dries out) helps fix the stain and can deepen the color. Apply gently with a cotton ball.",
+    "metadata": { "category": "application", "priority": "low" }
+  },
+  {
+    "id": "application_7",
+    "text": "Minimum time to keep henna on for any visible stain is 4 to 6 hours. For a light-medium stain, 6 hours works. For a deep, rich maroon (the kind Chippy is known for), keep it on for 10 to 12 hours.",
+    "metadata": { "category": "application", "priority": "high" }
+  },
+  {
+    "id": "ingredients_1",
+    "text": "Henna cones from Henna by Chippy contain exactly four ingredients: henna powder, water, essential oil, and sugar. That is the complete recipe. There are no other additives.",
+    "metadata": { "category": "ingredients", "priority": "critical" }
+  },
+  {
+    "id": "ingredients_2",
+    "text": "Henna by Chippy cones contain absolutely no PPD (para-phenylenediamine). PPD is a dangerous chemical found in many commercial henna and hair dye products that can cause severe allergic reactions, chemical burns, and long-term skin sensitization.",
+    "metadata": { "category": "ingredients", "priority": "critical" }
+  },
+  {
+    "id": "ingredients_3",
+    "text": "These henna cones contain no preservatives. The lack of preservatives is intentional. Preservatives interfere with the natural lawsone release from the henna powder, weakening stain quality. The freezer is nature's preservative.",
+    "metadata": { "category": "ingredients", "priority": "critical" }
+  },
+  {
+    "id": "ingredients_4",
+    "text": "The essential oil in Henna by Chippy cones serves a dual purpose: it helps the henna paste flow smoothly and helps fix the stain to the skin. Common essential oils used include cajeput oil or eucalyptus oil, both known to enhance henna stain depth.",
+    "metadata": { "category": "ingredients", "priority": "medium" }
+  },
+  {
+    "id": "ingredients_5",
+    "text": "Sugar in the henna paste acts as a natural binder that keeps the paste sticky and slows drying, allowing more dye to be absorbed by the skin. It helps the paste stay in place during the application period.",
+    "metadata": { "category": "ingredients", "priority": "low" }
+  },
+  {
+    "id": "stain_1",
+    "text": "A good henna stain from Henna by Chippy cones lasts 8 to 12 days with proper care. It can fade faster to 3-6 days depending on activity. Frequent hand washing, dishwashing, swimming, and strong soaps accelerate fading. The longevity also depends on where it is applied and how long the paste was kept on.",
+    "metadata": { "category": "stain", "priority": "high" }
+  },
+  {
+    "id": "stain_2",
+    "text": "Henna stains fade faster with frequent hand washing, dishwashing, swimming in chlorinated water, or using strong soaps. Moisturizing the stained area can slow fading.",
+    "metadata": { "category": "stain", "priority": "medium" }
+  },
+  {
+    "id": "stain_3",
+    "text": "The palms of the hands stain the darkest because the skin there has a thicker layer of keratin which absorbs lawsone more deeply. Feet and soles also stain very dark for the same reason.",
+    "metadata": { "category": "stain", "priority": "low" }
+  },
+  {
+    "id": "stain_4",
+    "text": "An orange stain after henna is a sign of either insufficient application time (less than 6 hours), a spoiled or improperly stored cone, or both. Chippy's henna should give a deep maroon when used correctly.",
+    "metadata": { "category": "stain", "priority": "high" }
+  },
+  {
+    "id": "stain_5",
+    "text": "The back of the hand and arms stain lighter than the palms because the skin is thinner and has fewer keratin layers. A longer application time (10-12 hours) is especially important for these areas.",
+    "metadata": { "category": "stain", "priority": "medium" }
+  },
+  {
+    "id": "logistics_1",
+    "text": "Henna by Chippy is based in Karuvarakundu, Malappuram District, Kerala, India. Chippy hand-rolls all cones herself in Karuvarakundu.",
+    "metadata": { "category": "logistics", "priority": "high" }
+  },
+  {
+    "id": "logistics_2",
+    "text": "Henna by Chippy ships across Kerala. Typical delivery within Kerala is 1 to 3 days. Nearby districts like Kozhikode, Thrissur, Palakkad, and Kannur usually receive within 1 to 2 days.",
+    "metadata": { "category": "logistics", "priority": "high" }
+  },
+  {
+    "id": "logistics_3",
+    "text": "CRITICAL TRANSIT RULE: Since the henna cones have no preservatives, if transit time exceeds 3 days, the product may spoil in transit. Customers in Tamil Nadu, Karnataka, or other states outside Kerala should be warned about this risk and advised to contact Chippy for express shipping options.",
+    "metadata": { "category": "logistics", "priority": "critical" }
+  },
+  {
+    "id": "logistics_4",
+    "text": "For customers in distant locations where delivery might take more than 3 days, they should WhatsApp Chippy directly at +91 7561856754 before ordering to discuss express shipping options. Standard shipping may not be safe for their location.",
+    "metadata": { "category": "logistics", "priority": "critical" }
+  },
+  {
+    "id": "logistics_5",
+    "text": "South Kerala districts like Thiruvananthapuram and Kollam are at the edge of the safe delivery zone. Delivery usually takes 2-3 days but can occasionally exceed 3 days. Customers there should be advised to track their shipment and freeze immediately upon arrival.",
+    "metadata": { "category": "logistics", "priority": "medium" }
+  },
+  {
+    "id": "ordering_1",
+    "text": "To order from Henna by Chippy, browse the shop on the website, add cones to the cart, and click 'Order via WhatsApp'. This opens a pre-filled WhatsApp message with the order details to send to Chippy.",
+    "metadata": { "category": "ordering", "priority": "high" }
+  },
+  {
+    "id": "ordering_2",
+    "text": "Henna by Chippy offers two products: Nail Cone (10-15g, ₹35) for nail art and small designs, and Skin Cone (25-30g, ₹45) for full hand designs, arms, and bridal patterns.",
+    "metadata": { "category": "ordering", "priority": "high" }
+  },
+  {
+    "id": "ordering_3",
+    "text": "Chippy's WhatsApp number for orders, bridal bookings, and inquiries is +91 7561856754. All orders are processed personally by Chippy through WhatsApp.",
+    "metadata": { "category": "ordering", "priority": "critical" }
+  },
+  {
+    "id": "bridal_1",
+    "text": "Chippy takes bridal henna appointments for weddings in Malappuram and nearby districts. Bridal sessions are personal and tailored. Chippy discusses the design vision, the bride's dress, and creates a pattern that tells the couple's story.",
+    "metadata": { "category": "bridal", "priority": "high" }
+  },
+  {
+    "id": "bridal_2",
+    "text": "For brides using Chippy's henna cones at home: the ideal timeline is to apply henna on the evening before or morning of the wedding day, keeping it on overnight (8-12 hours). The stain will be at its deepest on the wedding day.",
+    "metadata": { "category": "bridal", "priority": "critical" }
+  },
+  {
+    "id": "bridal_3",
+    "text": "Bridal henna preparation tips: apply on clean, unloiled skin; keep the design on overnight; avoid water on the hands until after the henna functions; eat before the application session to maintain comfort during the long session.",
+    "metadata": { "category": "bridal", "priority": "high" }
+  },
+  {
+    "id": "safety_1",
+    "text": "Henna by Chippy cones are safe for most skin types. They contain no chemical dyes, no PPD, and no preservatives. However, a small patch test is always recommended for people with very sensitive skin or known henna allergies.",
+    "metadata": { "category": "safety", "priority": "high" }
+  },
+  {
+    "id": "safety_2",
+    "text": "Chippy's henna is safe for children as it contains only natural ingredients. However, for very young children or anyone with a history of skin allergies, consult a doctor before use, and always do a small patch test first.",
+    "metadata": { "category": "safety", "priority": "high" }
+  },
+  {
+    "id": "safety_3",
+    "text": "Pregnant women asking about henna safety: natural henna with no chemicals is generally considered safe externally. However, Henna by Chippy recommends consulting your doctor before any new product during pregnancy, as this is medical advice beyond our expertise.",
+    "metadata": { "category": "safety", "priority": "high" }
+  },
+  {
+    "id": "comparison_1",
+    "text": "Black henna is not real henna. It contains PPD, a coal tar dye that can cause severe reactions including chemical burns, permanent scarring, and long-term allergies. Natural henna like Chippy's should always be brown, orange, or maroon. Never black.",
+    "metadata": { "category": "comparison", "priority": "high" }
+  },
+  {
+    "id": "comparison_2",
+    "text": "Commercial henna cones from shops often contain preservatives, artificial chemicals, or PPD to extend shelf life and artificially darken color. Chippy's cones use only natural ingredients, which is why proper freezer storage is essential.",
+    "metadata": { "category": "comparison", "priority": "medium" }
+  },
+  {
+    "id": "troubleshooting_1",
+    "text": "If the henna cone tip is clogged, gently warm the tip between your fingers for 30 seconds to soften the paste. If the opening is blocked, use a clean pin to carefully clear it. Do not squeeze the cone hard as it can burst.",
+    "metadata": { "category": "troubleshooting", "priority": "medium" }
+  },
+  {
+    "id": "troubleshooting_2",
+    "text": "If the stain is uneven or patchy, this is usually caused by: areas that dried too quickly (keep moisture by covering lightly), skin that was oily before application, or insufficient application time in some spots.",
+    "metadata": { "category": "troubleshooting", "priority": "medium" }
+  }
+]
