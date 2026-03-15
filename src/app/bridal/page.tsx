@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import { getFeaturedBridalGallery } from '@/lib/sanity/queries'
 import { thumbnailUrl, lqipUrl } from '@/lib/sanity/image'
 

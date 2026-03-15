@@ -9,8 +9,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Sanity Studio lives at /studio via a separate Sanity project
-  // Next.js handles all other routes
 }
 
 export default nextConfig
