@@ -262,28 +262,65 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Stain Showcase ───────────────────────────────────────── */}
+      {/* ── Instagram Showcase ───────────────────────────────────── */}
       <section className="section-container" aria-labelledby="showcase-heading">
-        <h2
-          id="showcase-heading"
-          className="font-serif text-henna-maroon text-center mb-2"
-          style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}
-        >
-          Real Stain Results
-        </h2>
-        <p className="text-center text-warm-gray text-sm mb-8">
-          What you get after 8-12 hours of wear.
-        </p>
+        {/* Header with Instagram branding */}
+        <div className="flex flex-col items-center mb-8 gap-3">
+          {/* Instagram icon + handle */}
+          <a
+            href="https://www.instagram.com/henna_by_chippy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-henna-maroon/20 hover:border-henna-maroon/50 transition-colors group"
+            aria-label="Visit Henna by Chippy on Instagram"
+          >
+            {/* Instagram icon */}
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-henna-maroon"
+              aria-hidden="true"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+            </svg>
+            <span className="text-sm font-medium text-henna-maroon group-hover:text-leaf-green transition-colors">
+              @henna_by_chippy
+            </span>
+          </a>
 
+          <h2
+            id="showcase-heading"
+            className="font-serif text-henna-maroon text-center"
+            style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}
+          >
+            Real Stain Results
+          </h2>
+          <p className="text-warm-gray text-sm text-center" style={{ maxWidth: 380 }}>
+            8-12 hours of wear. Deep maroon stain. Real customers, real results.
+          </p>
+        </div>
+
+        {/* Photo grid */}
         {showcaseItems.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {showcaseItems.map((item) =>
               item.sourceType === 'social_post' && item.socialPostUrl ? (
                 <div key={item._id} className="col-span-1">
                   <InstagramEmbed url={item.socialPostUrl} caption={item.caption} />
                 </div>
               ) : item.image ? (
-                <div key={item._id} className="relative aspect-square rounded-xl overflow-hidden">
+                <div
+                  key={item._id}
+                  className="relative aspect-square rounded-xl overflow-hidden shadow-sm"
+                >
                   <Image
                     src={thumbnailUrl(item.image)}
                     alt={item.image.alt ?? item.caption ?? 'Henna stain result'}
@@ -293,7 +330,7 @@ export default async function HomePage() {
                     loading="lazy"
                   />
                   {item.caption && (
-                    <div className="absolute bottom-0 inset-x-0 bg-dark-earth/50 text-ivory-bg text-xs px-2 py-1 text-center">
+                    <div className="absolute bottom-0 inset-x-0 bg-dark-earth/55 text-ivory-bg text-xs px-2 py-1.5 text-center">
                       {item.caption}
                     </div>
                   )}
@@ -304,7 +341,7 @@ export default async function HomePage() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {SHOWCASE_PHOTOS.map((photo) => (
-              <div key={photo.src} className="relative aspect-square rounded-xl overflow-hidden">
+              <div key={photo.src} className="relative aspect-square rounded-xl overflow-hidden shadow-sm">
                 <Image
                   src={photo.src}
                   alt={photo.alt}
@@ -318,7 +355,22 @@ export default async function HomePage() {
           </div>
         )}
 
-        <div className="text-center mt-8">
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+          <a
+            href="https://www.instagram.com/henna_by_chippy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors"
+            style={{ background: 'linear-gradient(135deg, #833ab4, #c13584, #e1306c, #fd1d1d, #f56040)' }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+            </svg>
+            Follow on Instagram
+          </a>
           <Link href="/bridal" className="btn-outline">
             See Bridal Portfolio
           </Link>
