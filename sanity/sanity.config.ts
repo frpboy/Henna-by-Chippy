@@ -10,6 +10,7 @@ import { post } from './schemas/post'
 import { siteSettings } from './schemas/siteSettings'
 import refundRequest from './schemas/refundRequest'
 import { chatLog } from './schemas/chatLog'
+import { pincodeLog } from './schemas/pincodeLog'
 
 export default defineConfig({
   name: 'henna-by-chippy',
@@ -45,6 +46,9 @@ export default defineConfig({
             S.listItem()
               .title('💬 AI Chat Logs')
               .child(S.documentTypeList('chatLog').title('Chat Sessions')),
+            S.listItem()
+              .title('📍 Pincode Lookups')
+              .child(S.documentTypeList('pincodeLog').title('Delivery Freshness Checks')),
             S.divider(),
             S.listItem()
               .title('⚙️ Site Settings')
@@ -60,6 +64,6 @@ export default defineConfig({
   ],
 
   schema: {
-    types: [product, bridalGallery, stainShowcase, review, post, siteSettings, refundRequest, chatLog],
+    types: [product, bridalGallery, stainShowcase, review, post, siteSettings, refundRequest, chatLog, pincodeLog],
   },
 })

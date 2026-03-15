@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import { getAllProducts } from '@/lib/sanity/queries'
 import ProductCard from '@/components/shop/ProductCard'
+import AddToCartButton from '@/components/shop/AddToCartButton'
 import StorageWarningBanner from '@/components/shared/StorageWarningBanner'
 
 const STATIC_PRODUCTS = [
   {
     id: 'nail-cone',
+    variant: 'nail' as const,
     name: 'Nail Cone',
     weight: '10-15g',
     price: 35,
@@ -17,6 +18,7 @@ const STATIC_PRODUCTS = [
   },
   {
     id: 'skin-cone',
+    variant: 'skin' as const,
     name: 'Skin Cone',
     weight: '25-30g',
     price: 45,
@@ -71,21 +73,28 @@ export default async function ShopPage() {
                   />
                   <div className="card-overlay">
                     <p className="text-white font-semibold text-sm px-4 text-center">{product.description}</p>
-                    <Link
-                      href={`https://wa.me/917561856754?text=${encodeURIComponent(`Hi Chippy! I'd like to order the ${product.name} (${product.weight}, Rs ${product.price}).`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 px-4 py-2 rounded-full bg-white text-henna-maroon text-sm font-bold hover:bg-ivory-bg transition-colors"
-                    >
-                      Order via WhatsApp
-                    </Link>
+                    <AddToCartButton
+                      productId={product.id}
+                      name={product.name}
+                      variant={product.variant}
+                      price={product.price}
+                      overlay
+                    />
                   </div>
                 </div>
                 <div className="p-5">
                   <h2 className="font-serif text-henna-maroon font-semibold text-lg">{product.name}</h2>
                   <p className="text-warm-gray text-sm mt-1">{product.weight}</p>
                   <p className="text-dark-earth/70 text-xs mt-2">{product.description}</p>
-                  <p className="text-henna-maroon font-bold text-xl mt-3">₹{product.price}</p>
+                  <div className="flex items-center justify-between mt-3">
+                    <span className="text-henna-maroon font-bold text-xl">₹{product.price}</span>
+                    <AddToCartButton
+                      productId={product.id}
+                      name={product.name}
+                      variant={product.variant}
+                      price={product.price}
+                    />
+                  </div>
                 </div>
               </div>
             ))}

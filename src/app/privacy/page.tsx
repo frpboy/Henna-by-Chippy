@@ -96,6 +96,41 @@ export default function PrivacyPage() {
           your personal data stored in our systems.
         </p>
 
+        <h2 id="location">Delivery freshness checker: location and pincode data</h2>
+        <p>
+          When you use the delivery freshness checker on our product pages, we collect:
+        </p>
+        <ul>
+          <li>
+            <strong>If you type a pincode:</strong> The pincode you entered, plus the district and
+            state returned by the India Post API.
+          </li>
+          <li>
+            <strong>If you use location access:</strong> Your device&apos;s GPS coordinates are
+            sent to our server, which converts them to a district and state using the OpenStreetMap
+            Nominatim service. Your raw coordinates are not stored. Only the resolved district,
+            state, and delivery zone are saved.
+          </li>
+        </ul>
+        <p>
+          This data is saved anonymously with no name, device ID, or IP address attached. It is
+          used only to understand which regions our customers are ordering from, so Chippy can plan
+          stock and logistics better. It is never shared or sold.
+        </p>
+        <p>
+          Third-party service used for GPS-based lookup:{' '}
+          <strong>Nominatim (OpenStreetMap)</strong> — coordinates are sent to Nominatim&apos;s servers
+          for reverse geocoding. See OpenStreetMap&apos;s{' '}
+          <a
+            href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            privacy policy
+          </a>
+          .
+        </p>
+
         <h2>Photos and media on this website</h2>
         <p>
           All photos on this website, including product images, blog posts, and the showcase

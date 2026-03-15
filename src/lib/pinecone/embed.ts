@@ -1,7 +1,7 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { embed } from 'ai'
 
-const EMBEDDING_MODEL = 'text-embedding-004'
+const EMBEDDING_MODEL = 'gemini-embedding-001'
 const EMBEDDING_DIMENSIONS = 768
 
 /**

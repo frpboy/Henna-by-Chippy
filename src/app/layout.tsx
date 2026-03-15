@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Analytics } from '@vercel/analytics/next'
 import FloatingNav from '@/components/ui/FloatingNav'
 import CartDrawer from '@/components/shop/CartDrawer'
 import StainConsultant from '@/components/ai/StainConsultant'
@@ -71,7 +72,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/support/refund" className="hover:text-henna-maroon transition-colors">Request Refund</a>
             </nav>
 
-            <div className="text-center md:text-right">
+            <div className="text-center md:text-right space-y-1">
+              <a
+                href="https://www.instagram.com/henna_by_chippy/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-henna-maroon transition-colors"
+              >
+                @henna_by_chippy
+              </a>
               <p>
                 Developed by{' '}
                 <a
@@ -86,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   )

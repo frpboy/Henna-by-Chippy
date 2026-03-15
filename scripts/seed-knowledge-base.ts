@@ -10,7 +10,8 @@
  */
 
 import { Pinecone } from '@pinecone-database/pinecone'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { embed } from 'ai'
 import { config } from 'dotenv'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -33,7 +34,7 @@ if (missing.length > 0) {
 
 // ── Clients ───────────────────────────────────────────────────────────────────
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!)
+const google = createGoogleGenerativeAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY! })
 const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! })
 const indexName = process.env.PINECONE_INDEX_NAME ?? 'henna-knowledge-base'
 const index = pinecone.index(indexName)
@@ -49,9 +50,11 @@ interface KnowledgeEntry {
 // ── Embed ─────────────────────────────────────────────────────────────────────
 
 async function embedText(text: string): Promise<number[]> {
-  const model = genAI.getGenerativeModel({ model: 'text-embedding-004' })
-  const result = await model.embedContent(text)
-  return result.embedding.values
+  const { embedding } = await embed({
+    model: google.textEmbeddingModel('gemini-embedding-001', { outputDimensionality: 768 }),
+    value: text,
+  })
+  return embedding
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────────

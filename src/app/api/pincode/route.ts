@@ -1,21 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { FreshnessZone, PincodeZoneEntry } from '@/types'
+import { sanityWriteClient } from '@/lib/sanity/client'
 
-// Districts that ship from Karuvarakundu, Malappuram — 1-2 day window
 const SAFE_DISTRICTS = new Set([
   'malappuram', 'kozhikode', 'palakkad', 'thrissur', 'wayanad',
 ])
-
-// Kerala districts with 2-3 day window
 const CAUTION_DISTRICTS = new Set([
   'ernakulam', 'kottayam', 'alappuzha', 'idukki', 'kannur',
   'thiruvananthapuram', 'trivandrum', 'kollam', 'pathanamthitta', 'kasaragod',
 ])
-
-// States that may breach the 3-day freshness window
 const RISKY_STATES = new Set(['tamil nadu', 'karnataka', 'goa', 'andhra pradesh', 'telangana'])
-
-// Very far states — almost certainly >3 days
 const WARN_STATES = new Set([
   'maharashtra', 'delhi', 'gujarat', 'rajasthan', 'uttar pradesh', 'madhya pradesh',
   'west bengal', 'bihar', 'jharkhand', 'odisha', 'chhattisgarh', 'haryana', 'punjab',
@@ -24,78 +18,126 @@ const WARN_STATES = new Set([
 ])
 
 const DAYS: Record<FreshnessZone, string> = {
-  safe: '1-2 days',
-  caution: '2-3 days',
-  risky: '3+ days',
-  warn: '4+ days',
-  unavailable: 'N/A',
+  safe: '1-2 days', caution: '2-3 days', risky: '3+ days', warn: '4+ days', unavailable: 'N/A',
 }
 
 function classify(district: string, state: string): FreshnessZone {
   const d = district.toLowerCase()
   const s = state.toLowerCase()
-
   if (s === 'kerala') {
     if (SAFE_DISTRICTS.has(d)) return 'safe'
     if (CAUTION_DISTRICTS.has(d)) return 'caution'
-    // Any other Kerala district defaults to caution — still within state
     return 'caution'
   }
-
   if (RISKY_STATES.has(s)) return 'risky'
   if (WARN_STATES.has(s)) return 'warn'
-
-  // Catch-all for Indian states not explicitly mapped
   return 'warn'
 }
 
-export async function GET(request: NextRequest) {
-  const pin = request.nextUrl.searchParams.get('pin') ?? ''
+// Fire-and-forget: save the lookup for analytics (never blocks the response)
+function saveLog(pincode: string, district: string, state: string, zone: FreshnessZone, method: 'typed' | 'gps') {
+  const isSanityConfigured = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID &&
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID !== 'placeholder' &&
+    process.env.SANITY_API_TOKEN
 
-  if (!/^\d{6}$/.test(pin)) {
-    return NextResponse.json({ error: 'Invalid pincode' }, { status: 400 })
+  if (!isSanityConfigured) return
+
+  void sanityWriteClient.create({
+    _type: 'pincodeLog',
+    pincode,
+    district,
+    state,
+    zone,
+    method,
+    checkedAt: new Date().toISOString(),
+  }).catch(() => { /* ignore — analytics must never fail the user */ })
+}
+
+// GPS: reverse geocode lat/lon via Nominatim → get postcode → classify
+async function fromCoords(lat: string, lon: string): Promise<NextResponse> {
+  const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`
+  const res = await fetch(url, {
+    headers: { 'User-Agent': 'HennaByChippy/1.0 (henna-by-chippy.vercel.app)' },
+    next: { revalidate: 3600 },
+  })
+  if (!res.ok) throw new Error('Geocode failed')
+
+  const data = await res.json() as {
+    address?: { postcode?: string; state_district?: string; county?: string; state?: string; country_code?: string }
   }
 
-  try {
-    const res = await fetch(`https://api.postalpincode.in/pincode/${pin}`, {
-      next: { revalidate: 86400 }, // cache for 24h — pincode data is stable
-    })
+  const addr = data.address
+  if (!addr || addr.country_code !== 'in') {
+    return NextResponse.json({ error: 'Location outside India' }, { status: 422 })
+  }
 
-    if (!res.ok) throw new Error('API error')
+  const pincode = addr.postcode?.replace(/\s/g, '') ?? ''
+  const district = addr.state_district ?? addr.county ?? ''
+  const state = addr.state ?? ''
 
-    const data = await res.json() as Array<{
-      Status: string
-      PostOffice: Array<{ District: string; State: string; Country: string }>
-    }>
+  if (!district || !state) {
+    return NextResponse.json({ error: 'Could not determine location' }, { status: 422 })
+  }
 
-    const result = data[0]
+  const zone = classify(district, state)
+  const entry: PincodeZoneEntry = { district, state, zone, estimatedDays: DAYS[zone] }
 
-    if (result.Status !== 'Success' || !result.PostOffice?.length) {
-      return NextResponse.json({ error: 'Pincode not found' }, { status: 404 })
-    }
+  saveLog(pincode || 'gps', district, state, zone, 'gps')
+  return NextResponse.json(entry)
+}
 
-    const po = result.PostOffice[0]
+// Pincode: call India Post API → classify
+async function fromPincode(pin: string): Promise<NextResponse> {
+  const res = await fetch(`https://api.postalpincode.in/pincode/${pin}`, {
+    next: { revalidate: 86400 },
+  })
+  if (!res.ok) throw new Error('API error')
 
-    // India Post returns "India" in Country — guard against non-India (shouldn't happen but be safe)
-    if (po.Country !== 'India') {
-      const entry: PincodeZoneEntry = {
-        district: po.District,
-        state: po.State,
-        zone: 'unavailable',
-        estimatedDays: DAYS.unavailable,
-      }
-      return NextResponse.json(entry)
-    }
+  const data = await res.json() as Array<{
+    Status: string
+    PostOffice: Array<{ District: string; State: string; Country: string }>
+  }>
 
-    const zone = classify(po.District, po.State)
-    const entry: PincodeZoneEntry = {
-      district: po.District,
-      state: po.State,
-      zone,
-      estimatedDays: DAYS[zone],
-    }
+  const result = data[0]
+  if (result.Status !== 'Success' || !result.PostOffice?.length) {
+    return NextResponse.json({ error: 'Pincode not found' }, { status: 404 })
+  }
 
+  const po = result.PostOffice[0]
+  if (po.Country !== 'India') {
+    const entry: PincodeZoneEntry = { district: po.District, state: po.State, zone: 'unavailable', estimatedDays: DAYS.unavailable }
     return NextResponse.json(entry)
+  }
+
+  const zone = classify(po.District, po.State)
+  const entry: PincodeZoneEntry = { district: po.District, state: po.State, zone, estimatedDays: DAYS[zone] }
+
+  saveLog(pin, po.District, po.State, zone, 'typed')
+  return NextResponse.json(entry)
+}
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl
+  const pin = searchParams.get('pin')
+  const lat = searchParams.get('lat')
+  const lon = searchParams.get('lon')
+
+  try {
+    if (lat && lon) {
+      if (isNaN(Number(lat)) || isNaN(Number(lon))) {
+        return NextResponse.json({ error: 'Invalid coordinates' }, { status: 400 })
+      }
+      return await fromCoords(lat, lon)
+    }
+
+    if (pin) {
+      if (!/^\d{6}$/.test(pin)) {
+        return NextResponse.json({ error: 'Invalid pincode' }, { status: 400 })
+      }
+      return await fromPincode(pin)
+    }
+
+    return NextResponse.json({ error: 'Provide ?pin= or ?lat=&lon=' }, { status: 400 })
   } catch {
     return NextResponse.json({ error: 'Lookup failed' }, { status: 502 })
   }
