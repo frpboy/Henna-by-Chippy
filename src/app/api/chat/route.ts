@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { generateText } from 'ai'
 import { sanityWriteClient } from '@/lib/sanity/client'
+import { searchKnowledge, formatContext } from '@/lib/pinecone/search'
 
-const SYSTEM_PROMPT = `You are Chippy's AI Stain Consultant for Henna by Chippy.
+const BASE_SYSTEM_PROMPT = `You are Chippy's AI Stain Consultant for Henna by Chippy.
 
 PRODUCT FACTS:
 - Ingredients: 100% natural henna powder, water, essential oil, sugar
@@ -89,6 +90,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'AI service unavailable' }, { status: 503 })
   }
 
+  // RAG: retrieve relevant knowledge chunks for this query
+  const chunks = await searchKnowledge(message).catch(() => [])
+  const ragContext = formatContext(chunks)
+  const systemPrompt = BASE_SYSTEM_PROMPT + ragContext
+
+  // Collect image URLs from retrieved chunks (for customer stain photo answers)
+  const images = chunks
+    .filter((c) => c.metadata.imageUrl && c.score > 0.65)
+    .map((c) => c.metadata.imageUrl as string)
+    .slice(0, 3)
+
   const google = createGoogleGenerativeAI({ apiKey })
 
   // Build messages from history (skip initial model greeting at index 0)
@@ -102,7 +114,7 @@ export async function POST(req: NextRequest) {
   const model = process.env.NEXT_PUBLIC_GEMINI_MODEL ?? 'gemini-2.5-flash'
   const { text: responseText } = await generateText({
     model: google(model),
-    system: SYSTEM_PROMPT,
+    system: systemPrompt,
     messages: [...historyMessages, { role: 'user', content: message }],
     maxTokens: 600,
     temperature: 0.7,
@@ -128,5 +140,5 @@ export async function POST(req: NextRequest) {
       // Logging failure must never affect the response
     })
 
-  return NextResponse.json({ text: responseText })
+  return NextResponse.json({ text: responseText, ...(images.length > 0 && { images }) })
 }

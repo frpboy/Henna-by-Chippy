@@ -1,58 +1,69 @@
 'use client'
 
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 import type { CartItem, CartStore } from '@/types'
 
 const MAX_MESSAGES_PER_SESSION = 10
 
-export const useCartStore = create<CartStore>((set, get) => ({
-  items: [],
-  isOpen: false,
-  messageCount: 0,
+export const useCartStore = create<CartStore>()(
+  persist(
+    (set, get) => ({
+      items: [],
+      isOpen: false,
+      messageCount: 0,
 
-  addItem: (newItem) => {
-    set((state) => {
-      const existing = state.items.find((i) => i.productId === newItem.productId)
-      if (existing) {
-        return {
-          items: state.items.map((i) =>
-            i.productId === newItem.productId ? { ...i, quantity: i.quantity + 1 } : i,
-          ),
+      addItem: (newItem) => {
+        set((state) => {
+          const existing = state.items.find((i) => i.productId === newItem.productId)
+          if (existing) {
+            return {
+              items: state.items.map((i) =>
+                i.productId === newItem.productId ? { ...i, quantity: i.quantity + 1 } : i,
+              ),
+            }
+          }
+          return { items: [...state.items, { ...newItem, quantity: 1 }] }
+        })
+      },
+
+      removeItem: (productId) => {
+        set((state) => ({ items: state.items.filter((i) => i.productId !== productId) }))
+      },
+
+      updateQuantity: (productId, quantity) => {
+        if (quantity <= 0) {
+          get().removeItem(productId)
+          return
         }
-      }
-      return { items: [...state.items, { ...newItem, quantity: 1 }] }
-    })
-  },
+        set((state) => ({
+          items: state.items.map((i) => (i.productId === productId ? { ...i, quantity } : i)),
+        }))
+      },
 
-  removeItem: (productId) => {
-    set((state) => ({ items: state.items.filter((i) => i.productId !== productId) }))
-  },
+      clearCart: () => set({ items: [] }),
 
-  updateQuantity: (productId, quantity) => {
-    if (quantity <= 0) {
-      get().removeItem(productId)
-      return
-    }
-    set((state) => ({
-      items: state.items.map((i) => (i.productId === productId ? { ...i, quantity } : i)),
-    }))
-  },
+      openCart: () => set({ isOpen: true }),
+      closeCart: () => set({ isOpen: false }),
 
-  clearCart: () => set({ items: [] }),
+      incrementMessageCount: () => set((state) => ({ messageCount: state.messageCount + 1 })),
 
-  openCart: () => set({ isOpen: true }),
-  closeCart: () => set({ isOpen: false }),
+      getTotalPrice: () => {
+        return get().items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+      },
 
-  incrementMessageCount: () => set((state) => ({ messageCount: state.messageCount + 1 })),
-
-  getTotalPrice: () => {
-    return get().items.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  },
-
-  getTotalItems: () => {
-    return get().items.reduce((sum, item) => sum + item.quantity, 0)
-  },
-}))
+      getTotalItems: () => {
+        return get().items.reduce((sum, item) => sum + item.quantity, 0)
+      },
+    }),
+    {
+      name: 'henna-cart',
+      storage: createJSONStorage(() => localStorage),
+      // Only persist cart items, not UI state (isOpen, messageCount)
+      partialize: (state) => ({ items: state.items }),
+    },
+  ),
+)
 
 export { MAX_MESSAGES_PER_SESSION }
 

@@ -289,7 +289,7 @@ a:hover {
 
 .floating-nav {
   position: fixed;
-  top: 1rem;
+  top: 1rem; /* overridden by inline style when banner is present */
   left: 50%;
   transform: translateX(-50%);
   z-index: 60;
@@ -303,7 +303,7 @@ a:hover {
   align-items: center;
   gap: 1.5rem;
   box-shadow: 0 4px 24px rgba(93, 41, 6, 0.08);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease, top 0.2s ease;
   white-space: nowrap;
 }
 

@@ -6,17 +6,18 @@ import { useCartStore } from '@/store/cart'
 
 export default function FloatingNav() {
   const [hidden, setHidden] = useState(false)
+  const [topOffset, setTopOffset] = useState(16) // default 1rem = 16px
   const sentinelRef = useRef<HTMLDivElement>(null)
   const totalItems = useCartStore((s) => s.getTotalItems())
   const openCart = useCartStore((s) => s.openCart)
 
+  // Scroll-aware show/hide
   useEffect(() => {
     const sentinel = sentinelRef.current
     if (!sentinel) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Hide nav when sentinel (top of page) is not visible = user scrolled down
         setHidden(!entry.isIntersecting)
       },
       { threshold: 0 },
@@ -26,12 +27,49 @@ export default function FloatingNav() {
     return () => observer.disconnect()
   }, [])
 
+  // Offset the nav below the storage warning banner if one is present
+  useEffect(() => {
+    const GAP = 10 // px gap between banner bottom and nav top
+
+    function measure() {
+      const banner = document.querySelector<HTMLElement>('.storage-warning')
+      if (banner) {
+        setTopOffset(banner.offsetHeight + GAP)
+      } else {
+        setTopOffset(16) // 1rem fallback
+      }
+    }
+
+    measure()
+
+    // Watch for banner appearing/disappearing on route changes and resizes
+    const ro = new ResizeObserver(measure)
+    const mo = new MutationObserver(measure)
+
+    const banner = document.querySelector<HTMLElement>('.storage-warning')
+    if (banner) ro.observe(banner)
+
+    // Watch for banner being added/removed from DOM
+    mo.observe(document.body, { childList: true, subtree: true })
+
+    window.addEventListener('resize', measure)
+    return () => {
+      ro.disconnect()
+      mo.disconnect()
+      window.removeEventListener('resize', measure)
+    }
+  }, [])
+
   return (
     <>
       {/* Sentinel at the very top */}
       <div ref={sentinelRef} aria-hidden="true" style={{ position: 'absolute', top: 0 }} />
 
-      <nav className={`floating-nav${hidden ? ' nav-hidden' : ''}`} aria-label="Main navigation">
+      <nav
+        className={`floating-nav${hidden ? ' nav-hidden' : ''}`}
+        style={{ top: topOffset }}
+        aria-label="Main navigation"
+      >
         <Link
           href="/"
           className="font-serif text-henna-maroon font-semibold text-sm hover:opacity-75 transition-opacity"
