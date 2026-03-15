@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useCartStore, buildWhatsAppMessage } from '@/store/cart'
+import CustomerDetailsModal, { type CustomerDetails } from './CustomerDetailsModal'
 import FreezeWarningModal from './FreezeWarningModal'
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '917561856754'
@@ -15,7 +16,9 @@ interface ActivePromo {
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, getTotalPrice } = useCartStore()
+  const [showDetailsModal, setShowDetailsModal] = useState(false)
   const [showFreezeModal, setShowFreezeModal] = useState(false)
+  const [customerDetails, setCustomerDetails] = useState<CustomerDetails | null>(null)
   const [activePromo, setActivePromo] = useState<ActivePromo | null>(null)
 
   useEffect(() => {
@@ -29,17 +32,31 @@ export default function CartDrawer() {
 
   const handleCheckoutClick = () => {
     if (items.length === 0) return
+    setShowDetailsModal(true)
+  }
+
+  const handleDetailsConfirmed = (details: CustomerDetails) => {
+    setCustomerDetails(details)
+    setShowDetailsModal(false)
     setShowFreezeModal(true)
   }
 
   const handleConfirmedCheckout = () => {
     setShowFreezeModal(false)
-    const msg = buildWhatsAppMessage(items, activePromo)
+    const msg = buildWhatsAppMessage(items, activePromo, customerDetails ?? undefined)
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer')
   }
 
   return (
     <>
+      {/* Customer details modal */}
+      {showDetailsModal && (
+        <CustomerDetailsModal
+          onConfirm={handleDetailsConfirmed}
+          onCancel={() => setShowDetailsModal(false)}
+        />
+      )}
+
       {/* Freeze warning modal */}
       {showFreezeModal && (
         <FreezeWarningModal
@@ -56,7 +73,7 @@ export default function CartDrawer() {
       />
 
       {/* Drawer */}
-      <aside
+      <div
         className={`cart-drawer${isOpen ? ' open' : ''}`}
         aria-label="Shopping cart"
         role="dialog"
@@ -166,7 +183,7 @@ export default function CartDrawer() {
             </button>
           </div>
         )}
-      </aside>
+      </div>
     </>
   )
 }

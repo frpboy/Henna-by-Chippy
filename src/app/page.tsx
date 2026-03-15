@@ -2,9 +2,10 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Leaf, ShieldCheck, Snowflake } from 'lucide-react'
-import { getAllProducts } from '@/lib/sanity/queries'
-import { productImageUrl, lqipUrl } from '@/lib/sanity/image'
+import { getAllProducts, getShowcaseItems } from '@/lib/sanity/queries'
+import { productImageUrl, lqipUrl, thumbnailUrl } from '@/lib/sanity/image'
 import FreshnessChecker from '@/components/shared/FreshnessChecker'
+import InstagramEmbed from '@/components/ui/InstagramEmbed'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -36,15 +37,37 @@ function LocalBusinessJsonLd() {
       itemListElement: [
         {
           '@type': 'Offer',
-          itemOffered: { '@type': 'Product', name: 'Nail Cone', description: '10-15g henna cone' },
           price: '35',
           priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock',
+          itemOffered: {
+            '@type': 'Product',
+            name: 'Nail Cone',
+            description: '10-15g henna cone. Natural henna powder, water, essential oil, sugar. No PPD.',
+            offers: {
+              '@type': 'Offer',
+              price: '35',
+              priceCurrency: 'INR',
+              availability: 'https://schema.org/InStock',
+            },
+          },
         },
         {
           '@type': 'Offer',
-          itemOffered: { '@type': 'Product', name: 'Skin Cone', description: '25-30g henna cone' },
           price: '45',
           priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock',
+          itemOffered: {
+            '@type': 'Product',
+            name: 'Skin Cone',
+            description: '25-30g henna cone. Natural henna powder, water, essential oil, sugar. No PPD.',
+            offers: {
+              '@type': 'Offer',
+              price: '45',
+              priceCurrency: 'INR',
+              availability: 'https://schema.org/InStock',
+            },
+          },
         },
       ],
     },
@@ -90,7 +113,7 @@ const SHOWCASE_PHOTOS = [
 ]
 
 export default async function HomePage() {
-  const products = await getAllProducts()
+  const [products, showcaseItems] = await Promise.all([getAllProducts(), getShowcaseItems(12)])
   const hasProducts = products.length > 0
 
   return (
@@ -251,20 +274,50 @@ export default async function HomePage() {
         <p className="text-center text-warm-gray text-sm mb-8">
           What you get after 8-12 hours of wear.
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
-          {SHOWCASE_PHOTOS.map((photo) => (
-            <div key={photo.src} className="relative aspect-square rounded-xl overflow-hidden">
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                fill
-                sizes="(max-width: 640px) 50vw, 33vw"
-                className="object-cover hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-              />
-            </div>
-          ))}
-        </div>
+
+        {showcaseItems.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            {showcaseItems.map((item) =>
+              item.sourceType === 'social_post' && item.socialPostUrl ? (
+                <div key={item._id} className="col-span-1">
+                  <InstagramEmbed url={item.socialPostUrl} caption={item.caption} />
+                </div>
+              ) : item.image ? (
+                <div key={item._id} className="relative aspect-square rounded-xl overflow-hidden">
+                  <Image
+                    src={thumbnailUrl(item.image)}
+                    alt={item.image.alt ?? item.caption ?? 'Henna stain result'}
+                    fill
+                    sizes="(max-width: 640px) 50vw, 33vw"
+                    className="object-cover hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  {item.caption && (
+                    <div className="absolute bottom-0 inset-x-0 bg-dark-earth/50 text-ivory-bg text-xs px-2 py-1 text-center">
+                      {item.caption}
+                    </div>
+                  )}
+                </div>
+              ) : null,
+            )}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
+            {SHOWCASE_PHOTOS.map((photo) => (
+              <div key={photo.src} className="relative aspect-square rounded-xl overflow-hidden">
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="(max-width: 640px) 50vw, 33vw"
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="text-center mt-8">
           <Link href="/bridal" className="btn-outline">
             See Bridal Portfolio

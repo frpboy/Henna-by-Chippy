@@ -1,5 +1,18 @@
 import { sanityClient } from './client'
-import type { Product, BridalGallery, Review, SiteSettings, Post } from '@/types'
+import type { Product, BridalGallery, Review, SiteSettings, Post, SanityImage } from '@/types'
+
+export interface ShowcaseItem {
+  _id: string
+  sourceType: 'chippy' | 'customer_review' | 'social_post'
+  image?: SanityImage & { alt?: string }
+  socialPostUrl?: string
+  caption?: string
+  customerName?: string
+  stainType?: string
+  hoursKept?: number
+  coneUsed?: string
+  order?: number
+}
 
 // ── Live AI context ────────────────────────────────────────────────
 // Fetched at chat request time so the AI always has real-time data.
@@ -232,6 +245,25 @@ export async function getFeaturedReviews(limit = 6): Promise<Review[]> {
       hoursKept,
       submittedAt,
       stainPhotos { asset, alt }
+    }`,
+    { limit },
+  )
+}
+
+export async function getShowcaseItems(limit = 12): Promise<ShowcaseItem[]> {
+  if (!isSanityConfigured) return []
+  return sanityClient.fetch(
+    `*[_type == "stainShowcase" && featured == true] | order(order asc, _createdAt desc) [0...$limit] {
+      _id,
+      sourceType,
+      image { asset, alt },
+      socialPostUrl,
+      caption,
+      customerName,
+      stainType,
+      hoursKept,
+      coneUsed,
+      order
     }`,
     { limit },
   )

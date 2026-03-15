@@ -80,8 +80,32 @@ export default function StainConsultant() {
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         ) : (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          /* Mini henna tree — swaying in breeze */
+          <svg
+            className="henna-tree-icon-sway"
+            width="24"
+            height="29"
+            viewBox="0 0 100 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            {/* Trunk */}
+            <path d="M50 112 C49 91 51 74 50 52" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+            {/* Lower branches */}
+            <path d="M50 90 C40 82 27 76 14 68" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+            <path d="M50 90 C60 82 73 76 86 68" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+            {/* Upper branches */}
+            <path d="M50 66 C40 57 27 45 20 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+            <path d="M50 66 C60 57 73 45 80 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+            {/* Top */}
+            <path d="M50 56 C50 40 50 22 50 7" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+            {/* Leaves */}
+            <ellipse cx="11" cy="64" rx="8" ry="13" fill="currentColor" transform="rotate(-45 11 64)" />
+            <ellipse cx="89" cy="64" rx="8" ry="13" fill="currentColor" transform="rotate(45 89 64)" />
+            <ellipse cx="17" cy="24" rx="7" ry="11" fill="currentColor" transform="rotate(-60 17 24)" />
+            <ellipse cx="83" cy="24" rx="7" ry="11" fill="currentColor" transform="rotate(60 83 24)" />
+            <ellipse cx="50" cy="4" rx="7" ry="11" fill="currentColor" />
           </svg>
         )}
       </button>

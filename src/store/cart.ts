@@ -74,14 +74,29 @@ interface ActivePromo {
   aiDescription: string
 }
 
-export function buildWhatsAppMessage(items: CartItem[], promo?: ActivePromo | null): string {
+interface CustomerDetails {
+  name: string
+  whatsapp: string
+  address: string
+  pincode: string
+}
+
+export function buildWhatsAppMessage(
+  items: CartItem[],
+  promo?: ActivePromo | null,
+  customer?: CustomerDetails,
+): string {
   const itemLines = items
-    .map((item) => `• ${item.name} x${item.quantity} — ₹${item.price * item.quantity}`)
+    .map((item) => `• ${item.name} x${item.quantity} — Rs ${item.price * item.quantity}`)
     .join('\n')
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
+  const customerSection = customer
+    ? `\nName: ${customer.name}\nWhatsApp: ${customer.whatsapp}\nDelivery Address: ${customer.address}\nPincode: ${customer.pincode}`
+    : `\nDelivery Address: \nPincode: `
+
   return encodeURIComponent(
-    `🍃 *New Order — Henna by Chippy*\n\nItems:\n${itemLines}\n\n*Subtotal: ₹${subtotal}* (product price only)\n🚚 Delivery charges will be confirmed by Chippy based on your location.\n\n📦 Delivery Address: \n📍 Pincode: `,
+    `*New Order - Henna by Chippy*\n\nItems:\n${itemLines}\n\n*Subtotal: Rs ${subtotal}* (product price only)\nDelivery charges will be confirmed by Chippy based on your location.${customerSection}`,
   )
 }

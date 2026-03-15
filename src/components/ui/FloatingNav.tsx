@@ -7,9 +7,12 @@ import { useCartStore } from '@/store/cart'
 export default function FloatingNav() {
   const [hidden, setHidden] = useState(false)
   const [topOffset, setTopOffset] = useState(16) // default 1rem = 16px
+  const [mounted, setMounted] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
   const totalItems = useCartStore((s) => s.getTotalItems())
   const openCart = useCartStore((s) => s.openCart)
+
+  useEffect(() => { setMounted(true) }, [])
 
   // Scroll-aware show/hide
   useEffect(() => {
@@ -99,7 +102,7 @@ export default function FloatingNav() {
 
           <button
             onClick={openCart}
-            aria-label={`Cart, ${totalItems} items`}
+            aria-label={mounted && totalItems > 0 ? `Cart, ${totalItems} items` : 'Cart'}
             className="relative flex items-center justify-center w-9 h-9 rounded-full hover:bg-black/5 transition-colors"
           >
             <svg
@@ -118,7 +121,7 @@ export default function FloatingNav() {
               <line x1="3" x2="21" y1="6" y2="6" />
               <path d="M16 10a4 4 0 0 1-8 0" />
             </svg>
-            {totalItems > 0 && (
+            {mounted && totalItems > 0 && (
               <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-leaf-green text-white text-xs flex items-center justify-center font-bold">
                 {totalItems > 9 ? '9+' : totalItems}
               </span>

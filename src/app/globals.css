@@ -23,7 +23,7 @@
 
   /* Supporting neutrals */
   --color-warm-white: #FAF8F1;
-  --color-warm-gray: #A89880;
+  --color-warm-gray: #7A6655;
   --color-dark-earth: #3A1F0A;
   --color-light-sage: #EAF0E6;
 
@@ -205,7 +205,7 @@ a:hover {
 
 /* WhatsApp button */
 .btn-whatsapp {
-  background-color: #25D366;
+  background-color: #1A7A42;
   color: #ffffff;
   border: none;
   border-radius: var(--radius-pill);
@@ -222,8 +222,34 @@ a:hover {
 }
 
 .btn-whatsapp:hover {
-  background-color: #128C7E;
+  background-color: #145830;
   transform: translateY(-1px);
+}
+
+/* ================================================================
+   Henna Tree Animation
+   ================================================================ */
+
+@keyframes sway-tree {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
+}
+
+@keyframes sway-leaf {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+.henna-tree-sway {
+  animation: sway-tree 3.5s ease-in-out infinite;
+  transform-origin: bottom center;
+  display: block;
+}
+
+.henna-tree-icon-sway {
+  animation: sway-tree 4s ease-in-out infinite;
+  transform-origin: 50% 100%;
+  display: block;
 }
 
 /* ================================================================
