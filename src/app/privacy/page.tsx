@@ -64,7 +64,15 @@ export default function PrivacyPage() {
           acknowledged. These processors are used only to operate this website.
         </p>
 
-        <h2>Cookies</h2>
+        <h2>AI chat data</h2>
+        <p>
+          When you use the AI Stain Consultant chat, your messages are processed by Google Gemini
+          and stored by us with a random session ID (not linked to your identity). See our{' '}
+          <a href="/ai-use-policy">AI Use Policy</a> for full details on how AI chat data is
+          collected, used, and retained.
+        </p>
+
+                <h2>Cookies</h2>
         <p>
           We use session cookies only, for technical operation of the site. No advertising cookies,
           no tracking pixels, no third-party ad networks.

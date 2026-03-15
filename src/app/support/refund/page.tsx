@@ -30,8 +30,8 @@ export default function RefundFormPage() {
     e.preventDefault()
     setError('')
 
-    if (issueType === 'damaged_arrival' && !videoFile) {
-      setVideoError('Unboxing video is required for damaged on arrival claims.')
+    if (!videoFile) {
+      setVideoError('Unboxing video is required for all claims.')
       return
     }
 
@@ -80,6 +80,48 @@ export default function RefundFormPage() {
         >
           Refund or Replacement Request
         </h1>
+
+        {/* Policy notices */}
+        <div
+          style={{
+            background: '#fef3cd',
+            border: '1px solid #f5c842',
+            borderRadius: 10,
+            padding: '12px 16px',
+            marginBottom: 12,
+            fontSize: '0.82rem',
+            color: '#7a5c00',
+          }}
+        >
+          <strong>No Cancellations:</strong> Orders cannot be cancelled once placed. All sales are final.
+        </div>
+        <div
+          style={{
+            background: '#fef3cd',
+            border: '1px solid #f5c842',
+            borderRadius: 10,
+            padding: '12px 16px',
+            marginBottom: 12,
+            fontSize: '0.82rem',
+            color: '#7a5c00',
+          }}
+        >
+          <strong>Prepaid Orders Only:</strong> We accept prepaid orders only. Payment is collected before dispatch.
+        </div>
+        <div
+          style={{
+            background: '#fff0f0',
+            border: '1px solid #f5c6c6',
+            borderRadius: 10,
+            padding: '12px 16px',
+            marginBottom: 24,
+            fontSize: '0.82rem',
+            color: '#8b1a1a',
+          }}
+        >
+          <strong>Unboxing video required for all claims.</strong> Record the video while opening the package without cutting. Claims without a video cannot be processed.
+        </div>
+
         <p className="text-warm-gray text-sm mb-8">
           You can also message Chippy directly on{' '}
           <a href="https://wa.me/917561856754" target="_blank" rel="noopener noreferrer" className="underline text-leaf-green">
@@ -203,15 +245,10 @@ export default function RefundFormPage() {
               htmlFor="unboxingVideo"
               className="block text-sm font-semibold text-henna-maroon mb-1"
             >
-              Unboxing Video{' '}
-              {issueType === 'damaged_arrival' ? (
-                <span className="text-henna-maroon">* Required</span>
-              ) : (
-                <span className="text-warm-gray font-normal">(optional)</span>
-              )}
+              Unboxing Video <span className="text-red-600">* Required</span>
             </label>
             <p className="text-xs text-warm-gray mb-2">
-              Record while opening the package. Max 100MB.
+              Record while opening the package without cutting the video. Max 100MB. No video = no claim.
             </p>
             <input
               id="unboxingVideo"

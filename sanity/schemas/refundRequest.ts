@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 // Refund / Replacement Request
 // Customer submits this via /support/refund form on the website.
-// Unboxing video is required for damaged-on-arrival claims.
+// Unboxing video is REQUIRED for ALL claims — no exceptions.
 // Chippy reviews in Studio and updates status.
 
 export default defineType({
@@ -82,10 +82,11 @@ export default defineType({
       title: 'Unboxing Video',
       type: 'file',
       options: { accept: 'video/*' },
-      // Required for damaged_arrival claims. Client-side enforces 100MB max.
-      // Cannot enforce file size in Sanity schema — validate on upload form before submit.
+      // Required for ALL claims — no video means no replacement or refund.
+      // Client-side enforces 100MB max.
       description:
-        'Required for damaged on arrival claims. Max 100MB. Record while opening the package.',
+        'Required for all claims. Max 100MB. Customer must record while opening the package. No video = no replacement or refund.',
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({

@@ -1,14 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useCartStore, buildWhatsAppMessage } from '@/store/cart'
 import FreezeWarningModal from './FreezeWarningModal'
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '917561856754'
 
+interface ActivePromo {
+  _id: string
+  title: string
+  aiDescription: string
+  validUntil?: string
+}
+
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, getTotalPrice } = useCartStore()
   const [showFreezeModal, setShowFreezeModal] = useState(false)
+  const [activePromo, setActivePromo] = useState<ActivePromo | null>(null)
+
+  useEffect(() => {
+    fetch('/api/promotions')
+      .then((r) => r.json())
+      .then((d: { active: ActivePromo[] }) => {
+        setActivePromo(d.active?.[0] ?? null)
+      })
+      .catch(() => {})
+  }, [])
 
   const handleCheckoutClick = () => {
     if (items.length === 0) return
@@ -17,7 +34,7 @@ export default function CartDrawer() {
 
   const handleConfirmedCheckout = () => {
     setShowFreezeModal(false)
-    const msg = buildWhatsAppMessage(items)
+    const msg = buildWhatsAppMessage(items, activePromo)
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer')
   }
 
@@ -112,6 +129,32 @@ export default function CartDrawer() {
               <span className="text-sm text-warm-gray">Subtotal</span>
               <span className="font-bold text-henna-maroon text-lg">₹{getTotalPrice()}</span>
             </div>
+            {activePromo && (
+              <div
+                style={{
+                  background: 'var(--color-leaf-green)',
+                  color: '#fff',
+                  borderRadius: 8,
+                  padding: '8px 12px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 6,
+                }}
+              >
+                <span aria-hidden="true">🎉</span>
+                <div>
+                  <p style={{ margin: 0, fontWeight: 700 }}>Offer active!</p>
+                  <p style={{ margin: '2px 0 0', fontWeight: 400, opacity: 0.9 }}>
+                    {activePromo.aiDescription}
+                    {activePromo.validUntil && (
+                      <> · Ends {new Date(activePromo.validUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</>
+                    )}
+                  </p>
+                </div>
+              </div>
+            )}
             <p className="text-xs text-warm-gray">
               Delivery charges confirmed by Chippy based on your pincode.
             </p>

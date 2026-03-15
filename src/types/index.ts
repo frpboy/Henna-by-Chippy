@@ -12,6 +12,7 @@ export interface Product {
   description: string
   image: SanityImage
   inStock: boolean
+  stockCount?: number
   slug: string
 }
 

@@ -7,7 +7,6 @@ export const siteSettings = defineType({
   name: 'siteSettings',
   title: 'Site Settings',
   type: 'document',
-  __experimental_actions: ['update', 'publish'], // No create/delete — singleton
   fields: [
     defineField({
       name: 'storeName',
@@ -64,6 +63,26 @@ export const siteSettings = defineType({
           type: 'url',
         }),
       ],
+    }),
+    defineField({
+      name: 'acceptingOrders',
+      title: 'Accepting Orders',
+      type: 'boolean',
+      description: 'Toggle off during holidays or when stock is out completely.',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'dispatchDays',
+      title: 'Typical Dispatch Time',
+      type: 'string',
+      description: 'Shown to AI and customers. E.g., "1-2 business days", "Same day for local orders".',
+      initialValue: '1-2 business days',
+    }),
+    defineField({
+      name: 'dispatchNote',
+      title: 'Special Dispatch Note (Optional)',
+      type: 'string',
+      description: 'Any temporary note for the AI to mention. E.g., "Away for Eid — resuming orders on 5th April."',
     }),
     defineField({
       name: 'announcementBanner',

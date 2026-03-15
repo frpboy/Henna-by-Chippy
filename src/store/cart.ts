@@ -69,7 +69,12 @@ export { MAX_MESSAGES_PER_SESSION }
 
 // ── WhatsApp message builder ──────────────────────────────────────
 
-export function buildWhatsAppMessage(items: CartItem[]): string {
+interface ActivePromo {
+  title: string
+  aiDescription: string
+}
+
+export function buildWhatsAppMessage(items: CartItem[], promo?: ActivePromo | null): string {
   const itemLines = items
     .map((item) => `• ${item.name} x${item.quantity} — ₹${item.price * item.quantity}`)
     .join('\n')
@@ -77,6 +82,6 @@ export function buildWhatsAppMessage(items: CartItem[]): string {
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   return encodeURIComponent(
-    `🌿 *New Order — Henna by Chippy*\n\nItems:\n${itemLines}\n\n*Subtotal: ₹${subtotal}* (product price only)\n🚚 Delivery charges will be confirmed by Chippy based on your location.\n\n📦 Delivery Address: \n📍 Pincode: `,
+    `🍃 *New Order — Henna by Chippy*\n\nItems:\n${itemLines}\n\n*Subtotal: ₹${subtotal}* (product price only)\n🚚 Delivery charges will be confirmed by Chippy based on your location.\n\n📦 Delivery Address: \n📍 Pincode: `,
   )
 }

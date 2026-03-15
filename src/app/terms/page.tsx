@@ -43,6 +43,15 @@ export default function TermsPage() {
           See our <a href="/refund-policy">Refund and Replacement Policy</a> for full details.
         </p>
 
+        <h2>AI Stain Consultant</h2>
+        <p>
+          This website includes an AI-powered chat assistant. By using it, you agree to our{' '}
+          <a href="/ai-use-policy">AI Use Policy</a>. The AI is provided for informational
+          purposes only. Its responses are not professional advice and Henna by Chippy is not
+          liable for any action taken based on AI-generated content. Always consult a doctor before
+          using henna if you have skin sensitivities or allergies.
+        </p>
+
         <h2>Intellectual property</h2>
         <p>
           All photos, designs, and content on this website belong to Chippy and may not be used

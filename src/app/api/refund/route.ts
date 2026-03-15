@@ -17,10 +17,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
-  // Unboxing video is required for damaged_arrival
-  if (issueType === 'damaged_arrival' && !videoFile) {
+  // Unboxing video is required for all claims
+  if (!videoFile) {
     return NextResponse.json(
-      { error: 'Unboxing video is required for damaged on arrival claims.' },
+      { error: 'Unboxing video is required. Please record while opening the package.' },
       { status: 400 },
     )
   }

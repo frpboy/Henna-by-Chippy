@@ -146,6 +146,24 @@ export default function StainConsultant() {
             <div ref={messagesEndRef} />
           </div>
 
+          {/* AI disclosure */}
+          <p className="px-4 pb-1 text-[10px] text-warm-gray/70 leading-snug">
+            This product uses AI. Your chat activity may be used to improve this product and your
+            use is subject to this website&apos;s{' '}
+            <a href="/terms" className="underline hover:text-henna-maroon">
+              Terms
+            </a>
+            ,{' '}
+            <a href="/ai-use-policy" className="underline hover:text-henna-maroon">
+              AI Use Policy
+            </a>{' '}
+            and{' '}
+            <a href="/privacy" className="underline hover:text-henna-maroon">
+              Privacy Policy
+            </a>
+            .
+          </p>
+
           {/* Input or limit banner */}
           <div className="px-3 pb-3">
             {isLimitReached ? (

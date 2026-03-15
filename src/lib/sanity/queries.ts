@@ -1,6 +1,66 @@
 import { sanityClient } from './client'
 import type { Product, BridalGallery, Review, SiteSettings, Post } from '@/types'
 
+// ── Live AI context ────────────────────────────────────────────────
+// Fetched at chat request time so the AI always has real-time data.
+
+interface LiveProductStatus {
+  name: string
+  type: string
+  price: number
+  inStock: boolean
+  stockCount?: number
+}
+
+interface LivePromotion {
+  title: string
+  aiDescription: string
+  discountType: string
+  discountValue?: string
+  applicableTo: string[]
+  validUntil?: string
+  minimumOrderValue?: number
+}
+
+interface LiveAiContext {
+  acceptingOrders: boolean
+  dispatchDays: string
+  dispatchNote?: string
+  products: LiveProductStatus[]
+  promotions: LivePromotion[]
+}
+
+const now = () => new Date().toISOString()
+
+export async function getLiveAiContext(): Promise<LiveAiContext | null> {
+  if (!isSanityConfigured) return null
+  try {
+    const [settings, products, promotions] = await Promise.all([
+      sanityClient.fetch<{ acceptingOrders: boolean; dispatchDays: string; dispatchNote?: string }>(
+        `*[_type == "siteSettings"][0] { acceptingOrders, dispatchDays, dispatchNote }`
+      ),
+      sanityClient.fetch<LiveProductStatus[]>(
+        `*[_type == "product"] | order(type asc) { name, type, price, inStock, stockCount }`
+      ),
+      sanityClient.fetch<LivePromotion[]>(
+        `*[_type == "promotion" && active == true && (validUntil == null || validUntil > $now) && (validFrom == null || validFrom <= $now)] {
+          title, aiDescription, discountType, discountValue, applicableTo, validUntil, minimumOrderValue
+        }`,
+        { now: now() }
+      ),
+    ])
+    return {
+      acceptingOrders: settings?.acceptingOrders ?? true,
+      dispatchDays: settings?.dispatchDays ?? '1-2 business days',
+      dispatchNote: settings?.dispatchNote,
+      products: products ?? [],
+      promotions: promotions ?? [],
+    }
+  } catch {
+    return null
+  }
+}
+
 const isSanityConfigured = !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 
 // ── Products ──────────────────────────────────────────────────────
@@ -14,6 +74,7 @@ const productFields = `
   weight,
   description,
   inStock,
+  stockCount,
   "slug": slug.current,
   image {
     asset,

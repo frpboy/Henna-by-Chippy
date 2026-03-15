@@ -5,6 +5,7 @@ import FloatingNav from '@/components/ui/FloatingNav'
 import CartDrawer from '@/components/shop/CartDrawer'
 import StainConsultant from '@/components/ai/StainConsultant'
 import HennaTrail from '@/components/ui/HennaTrail'
+import PromotionBanner from '@/components/shop/PromotionBanner'
 
 export const metadata: Metadata = {
   title: {
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <HennaTrail />
         <FloatingNav />
+        <PromotionBanner />
         <main>{children}</main>
         <CartDrawer />
         <StainConsultant />
@@ -68,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav aria-label="Footer navigation" className="flex flex-wrap justify-center gap-4">
               <a href="/privacy" className="hover:text-henna-maroon transition-colors">Privacy Policy</a>
               <a href="/terms" className="hover:text-henna-maroon transition-colors">Terms</a>
+              <a href="/ai-use-policy" className="hover:text-henna-maroon transition-colors">AI Use Policy</a>
               <a href="/refund-policy" className="hover:text-henna-maroon transition-colors">Refund Policy</a>
               <a href="/support/refund" className="hover:text-henna-maroon transition-colors">Request Refund</a>
             </nav>

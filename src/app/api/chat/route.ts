@@ -3,6 +3,7 @@ import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { generateText } from 'ai'
 import { sanityWriteClient } from '@/lib/sanity/client'
 import { searchKnowledge, formatContext } from '@/lib/pinecone/search'
+import { getLiveAiContext } from '@/lib/sanity/queries'
 
 const BASE_SYSTEM_PROMPT = `You are Chippy's AI Stain Consultant for Henna by Chippy.
 
@@ -45,6 +46,54 @@ LANGUAGE:
 - Keep responses warm, helpful, and culturally aware
 - Do not use em dashes. Use commas or colons instead.
 - Keep responses concise and friendly. Chippy is a local artisan, not a corporation.`
+
+
+function buildLiveContextBlock(ctx: Awaited<ReturnType<typeof getLiveAiContext>>): string {
+  if (!ctx) return ''
+
+  const lines: string[] = ['\nLIVE STORE STATUS (fetched right now — use this over any guesses):']
+
+  if (!ctx.acceptingOrders) {
+    lines.push('- IMPORTANT: Chippy is NOT accepting orders right now. Let the customer know and suggest they message Chippy on WhatsApp to check when orders reopen.')
+  } else {
+    lines.push('- Orders: OPEN')
+  }
+
+  lines.push(`- Typical dispatch time: ${ctx.dispatchDays}`)
+  if (ctx.dispatchNote) {
+    lines.push(`- Special note from Chippy: ${ctx.dispatchNote}`)
+  }
+
+  if (ctx.products.length > 0) {
+    lines.push('- Product stock:')
+    for (const p of ctx.products) {
+      const stockLabel = !p.inStock
+        ? 'OUT OF STOCK'
+        : p.stockCount !== undefined && p.stockCount > 0
+        ? `in stock (${p.stockCount} units)`
+        : 'in stock'
+      lines.push(`  • ${p.name} Rs ${p.price}: ${stockLabel}`)
+    }
+  }
+
+  if (ctx.promotions.length > 0) {
+    lines.push('- Current promotions:')
+    for (const promo of ctx.promotions) {
+      lines.push(`  • ${promo.aiDescription}`)
+      if (promo.validUntil) {
+        const exp = new Date(promo.validUntil).toLocaleDateString('en-IN')
+        lines.push(`    (Expires: ${exp})`)
+      }
+      if (promo.minimumOrderValue) {
+        lines.push(`    (Minimum order: Rs ${promo.minimumOrderValue})`)
+      }
+    }
+  } else {
+    lines.push('- No active promotions at the moment.')
+  }
+
+  return lines.join('\n')
+}
 
 // Rate limit: simple in-memory (use Upstash Redis in production)
 const ipRequestMap = new Map<string, { count: number; resetAt: number }>()
@@ -90,10 +139,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'AI service unavailable' }, { status: 503 })
   }
 
-  // RAG: retrieve relevant knowledge chunks for this query
-  const chunks = await searchKnowledge(message).catch(() => [])
+  // Fetch RAG chunks and live store context in parallel
+  const [chunks, liveCtx] = await Promise.all([
+    searchKnowledge(message).catch(() => []),
+    getLiveAiContext(),
+  ])
   const ragContext = formatContext(chunks)
-  const systemPrompt = BASE_SYSTEM_PROMPT + ragContext
+  const liveContext = buildLiveContextBlock(liveCtx)
+  const systemPrompt = BASE_SYSTEM_PROMPT + ragContext + liveContext
 
   // Collect image URLs from retrieved chunks (for customer stain photo answers)
   const images = chunks
