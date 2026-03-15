@@ -3,8 +3,6 @@
 import { useState } from 'react'
 import type { FreshnessZone, PincodeZoneEntry } from '@/types'
 
-// Static pincode prefix lookup — authoritative source
-// Full file: src/lib/pincode-zones.json
 const ZONE_MESSAGES: Record<FreshnessZone, { label: string; detail: string; className: string }> =
   {
     safe: {
@@ -37,31 +35,35 @@ const ZONE_MESSAGES: Record<FreshnessZone, { label: string; detail: string; clas
     },
   }
 
-async function lookupPincode(pincode: string): Promise<PincodeZoneEntry | null> {
-  try {
-    const raw = (await import('@/lib/pincode-zones.json')).default
-    const zones = raw as unknown as Record<string, PincodeZoneEntry>
-    // Try full pincode first, then 3-digit prefix
-    return zones[pincode] ?? zones[pincode.slice(0, 3)] ?? null
-  } catch {
-    return null
-  }
-}
-
 export default function FreshnessChecker() {
   const [pincode, setPincode] = useState('')
-  const [result, setResult] = useState<PincodeZoneEntry | null | 'unknown'>(null)
+  const [result, setResult] = useState<PincodeZoneEntry | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
   const handleCheck = async () => {
     if (!/^\d{6}$/.test(pincode)) return
     setLoading(true)
-    const entry = await lookupPincode(pincode)
-    setResult(entry ?? 'unknown')
-    setLoading(false)
+    setResult(null)
+    setError(null)
+
+    try {
+      const res = await fetch(`/api/pincode?pin=${pincode}`)
+      if (!res.ok) {
+        // Non-2xx — still try to parse the error body
+        const body = await res.json().catch(() => ({})) as { error?: string }
+        throw new Error(body.error ?? 'Lookup failed')
+      }
+      const data = await res.json() as PincodeZoneEntry
+      setResult(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lookup failed')
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const zoneInfo = result && result !== 'unknown' ? ZONE_MESSAGES[result.zone] : null
+  const zoneInfo = result ? ZONE_MESSAGES[result.zone] : null
 
   return (
     <div className="max-w-sm">
@@ -76,7 +78,12 @@ export default function FreshnessChecker() {
           pattern="\d{6}"
           maxLength={6}
           value={pincode}
-          onChange={(e) => setPincode(e.target.value.replace(/\D/g, ''))}
+          onChange={(e) => {
+            setPincode(e.target.value.replace(/\D/g, ''))
+            setResult(null)
+            setError(null)
+          }}
+          onKeyDown={(e) => e.key === 'Enter' && pincode.length === 6 && handleCheck()}
           placeholder="Enter your pincode"
           className="flex-1 border border-henna-maroon/20 rounded-full px-4 py-2 text-sm bg-warm-white focus:outline-none focus:ring-2 focus:ring-leaf-green"
           aria-label="Enter your 6-digit pincode"
@@ -90,27 +97,27 @@ export default function FreshnessChecker() {
         </button>
       </div>
 
-      {result && (
+      {error && (
         <div
-          className={`mt-3 p-3 rounded-lg text-sm ${
-            result === 'unknown'
-              ? 'bg-warm-white border border-henna-maroon/15 text-warm-gray'
-              : zoneInfo?.className
-          }`}
+          className="mt-3 p-3 rounded-lg text-sm bg-warm-white border border-henna-maroon/15 text-warm-gray"
           role="status"
           aria-live="polite"
         >
-          {result === 'unknown' ? (
-            <p>Pincode not found. Contact Chippy on WhatsApp to check delivery availability.</p>
-          ) : (
-            <>
-              <p className="font-semibold">{zoneInfo?.label}</p>
-              <p className="mt-0.5 opacity-90">{zoneInfo?.detail}</p>
-              <p className="mt-1 text-xs opacity-75">
-                {result.district}, {result.state} — Est. {result.estimatedDays}
-              </p>
-            </>
-          )}
+          <p>Could not look up that pincode. Please contact Chippy on WhatsApp.</p>
+        </div>
+      )}
+
+      {result && zoneInfo && (
+        <div
+          className={`mt-3 p-3 rounded-lg text-sm ${zoneInfo.className}`}
+          role="status"
+          aria-live="polite"
+        >
+          <p className="font-semibold">{zoneInfo.label}</p>
+          <p className="mt-0.5 opacity-90">{zoneInfo.detail}</p>
+          <p className="mt-1 text-xs opacity-75">
+            {result.district} / {result.state} — Est. {result.estimatedDays}
+          </p>
         </div>
       )}
     </div>

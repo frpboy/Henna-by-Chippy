@@ -96,6 +96,28 @@ export default function PrivacyPage() {
           your personal data stored in our systems.
         </p>
 
+        <h2>Photos and media on this website</h2>
+        <p>
+          All photos on this website, including product images, blog posts, and the showcase
+          gallery, are real. They come from two sources:
+        </p>
+        <ul>
+          <li>
+            <strong>Personal use:</strong> Photos taken by Chippy herself of her own henna work and
+            products.
+          </li>
+          <li>
+            <strong>Customer submissions:</strong> Photos shared by real customers with their
+            written consent. Customers agree to their photos being used on this site when they
+            submit a review. No stock photos or AI-generated images are used anywhere on this
+            website.
+          </li>
+        </ul>
+        <p>
+          If you submitted a photo and would like it removed, contact Chippy on WhatsApp and it
+          will be taken down within 24 hours.
+        </p>
+
         <h2>Contact</h2>
         <p>
           For any privacy questions, contact Chippy on WhatsApp:{' '}
