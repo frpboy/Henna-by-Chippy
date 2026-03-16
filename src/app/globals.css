@@ -28,8 +28,8 @@
   --color-light-sage: #EAF0E6;
 
   /* ── Typography ────────────────────────────────────────────── */
-  --font-serif: "Playfair Display", Georgia, serif;
-  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
 
   /* Font sizes — fluid for mobile-first */
   --text-display: clamp(2.5rem, 6vw, 5rem);

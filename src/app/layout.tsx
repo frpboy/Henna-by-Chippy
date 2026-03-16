@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google'
 import Link from 'next/link'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/next'
@@ -7,6 +8,21 @@ import CartDrawer from '@/components/shop/CartDrawer'
 import StainConsultant from '@/components/ai/StainConsultant'
 import HennaTrail from '@/components/ui/HennaTrail'
 import PromotionBanner from '@/components/shop/PromotionBanner'
+import WhatsAppFloat from '@/components/ui/WhatsAppFloat'
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  variable: '--font-playfair',
+  display: 'swap',
+})
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-plus-jakarta',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: {
@@ -45,15 +61,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${playfair.variable} ${plusJakarta.variable}`}>
       <body>
         <HennaTrail />
         <FloatingNav />
@@ -61,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <CartDrawer />
         <StainConsultant />
+        <WhatsAppFloat />
         <footer className="py-10 px-6 border-t border-henna-maroon/10 mt-20">
           <div className="max-w-6xl mx-auto flex flex-col gap-8 text-sm text-warm-gray">
             {/* Top row: brand + nav columns */}

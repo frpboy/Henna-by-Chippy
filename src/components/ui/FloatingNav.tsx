@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useCartStore } from '@/store/cart'
 
 const NAV_LINKS = [
@@ -18,8 +19,16 @@ export default function FloatingNav() {
   const [mounted, setMounted] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
   const totalItems = useCartStore((s) => s.getTotalItems())
   const openCart = useCartStore((s) => s.openCart)
+
+  // A link is active if the pathname starts with its href (exact for /)
+  const isActive = (href: string) => {
+    const base = href.split('#')[0]
+    if (base === '/') return pathname === '/'
+    return pathname.startsWith(base)
+  }
 
   useEffect(() => { setMounted(true) }, [])
 
@@ -106,7 +115,11 @@ export default function FloatingNav() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-henna-maroon hover:text-leaf-green transition-colors"
+              className={`text-sm font-medium transition-colors ${
+                isActive(link.href)
+                  ? 'text-leaf-green font-semibold'
+                  : 'text-henna-maroon hover:text-leaf-green'
+              }`}
             >
               {link.label}
             </Link>
@@ -194,7 +207,11 @@ export default function FloatingNav() {
                   key={link.href}
                   href={link.href}
                   onClick={closeMenu}
-                  className="flex items-center gap-3 px-3 py-3 rounded-xl text-henna-maroon font-medium text-sm hover:bg-henna-maroon/5 transition-colors"
+                  className={`flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition-colors ${
+                    isActive(link.href)
+                      ? 'text-leaf-green bg-leaf-green/5'
+                      : 'text-henna-maroon hover:bg-henna-maroon/5'
+                  }`}
                 >
                   {/* Henna leaf dot accent */}
                   <svg width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden="true">
