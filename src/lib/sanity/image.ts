@@ -27,3 +27,8 @@ export function lqipUrl(source: SanityImage): string {
 export function galleryImageUrl(source: SanityImage): string {
   return urlFor(source).width(1200).quality(80).format('webp').url()
 }
+
+/** Full-size for lightbox — 900px wide, high quality */
+export function fullSizeUrl(source: SanityImage): string {
+  return urlFor(source).width(900).quality(88).format('webp').url()
+}

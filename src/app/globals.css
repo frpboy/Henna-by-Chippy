@@ -339,6 +339,30 @@ a:hover {
   pointer-events: none;
 }
 
+/* Mobile hamburger dropdown */
+.nav-mobile-menu {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: rgba(255, 253, 245, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(93, 41, 6, 0.12);
+  border-radius: 1.25rem;
+  padding: 1rem 0.75rem;
+  min-width: 220px;
+  width: calc(100vw - 2rem);
+  max-width: 340px;
+  box-shadow: 0 8px 32px rgba(93, 41, 6, 0.12);
+  animation: menu-drop 0.2s var(--ease-out) both;
+}
+
+@keyframes menu-drop {
+  from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
 /* ================================================================
    HeroGlow — CSS radial-gradient maroon glow
    ================================================================ */

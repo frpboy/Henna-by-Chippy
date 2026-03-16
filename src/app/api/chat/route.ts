@@ -95,7 +95,11 @@ function buildLiveContextBlock(ctx: Awaited<ReturnType<typeof getLiveAiContext>>
   return lines.join('\n')
 }
 
-// Rate limit: simple in-memory (use Upstash Redis in production)
+// TODO (item 6 — Upstash): Replace this in-memory map with @upstash/redis for persistence
+// across serverless instances. After domain + Vercel env vars are live:
+//   npm install @upstash/redis
+//   Set UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN in Vercel project settings.
+// Current in-memory rate limit resets on every cold start / redeploy.
 const ipRequestMap = new Map<string, { count: number; resetAt: number }>()
 const RATE_LIMIT = 10
 const RATE_WINDOW_MS = 60_000
