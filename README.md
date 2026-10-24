@@ -3,6 +3,11 @@
 > Premium organic henna e-commerce & portfolio platform
 > Karuvarakundu, Malappuram, Kerala
 
+## Links
+
+- **Live website:** https://henna-by-chippy.vercel.app/
+- **Source code:** https://github.com/frpboy/Henna-by-Chippy
+
 ---
 
 ## What This Is
