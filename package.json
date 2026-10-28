@@ -10,7 +10,7 @@
     "sanity": "cd sanity && npx sanity dev"
   },
   "dependencies": {
-    "@ai-sdk/google": "^1.2.18",
+    "@ai-sdk/google": "^4.0.105",
     "@google/generative-ai": "^0.24.1",
     "@pinecone-database/pinecone": "^4.1.0",
     "@sanity/client": "^7.17.0",
